@@ -1,4 +1,5 @@
 import React from "react";
+import 'animate.css';
 import { Button, Typography, Row, Col } from "antd";
 
 const HeroSection = () => {
@@ -18,7 +19,7 @@ const HeroSection = () => {
         </Col>
 
         {/* Image Content */}
-        <Col xs={24} md={12} className="flex justify-center">
+        <Col xs={24} md={12} className="animate__animated animate__fadeInLeft flex justify-center">
           <img
             src="https://images.pexels.com/photos/842811/pexels-photo-842811.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
             alt="Hero Product"
