@@ -1,13 +1,22 @@
-import React, { useState } from "react";
-import 'animate.css';
+import React, { useContext, useState } from "react";
+import "animate.css";
 import { Link, NavLink } from "react-router-dom";
 import { assets } from "../assets/assets";
+import { ShopContext } from "../context/ShopContext";
 
 const Navbar = () => {
-  const [visible,setVisible] = useState(false);
+  const [visible, setVisible] = useState(false);
+
+  const { setShowSearch } = useContext(ShopContext);
   return (
     <div className="flex animate__animated animate__backInDown items-center justify-between py-5 font-medium">
-      <Link to="/"><img src={assets.logo} className="w-[12em] h-auto mt-[-5px]" alt="Logo" /></Link>
+      <Link to="/">
+        <img
+          src={assets.logo}
+          className="w-[12em] h-auto mt-[-5px]"
+          alt="Logo"
+        />
+      </Link>
       <ul className="hidden sm:flex gap-5 text-sm text-gray-700">
         <NavLink to="/" className="flex flex-col items-center gap-1">
           <p>HOME</p>
@@ -27,7 +36,12 @@ const Navbar = () => {
         </NavLink>
       </ul>
       <div className="flex items-center gap-5">
-        <img src={assets.search_icon} className="w-5 cursor-pointer" alt="" />
+        <img
+          onClick={() => setShowSearch(true)}
+          src={assets.search_icon}
+          className="w-5 cursor-pointer"
+          alt=""
+        />
         <div className="group relative">
           <img
             src={assets.profile_icon}
@@ -56,16 +70,47 @@ const Navbar = () => {
         />
       </div>
       {/* Sidebar Menu for small screens */}
-      <div className={`absolute top-0 right-0 bottom-0 overflow-hidden bg-white ${visible ? 'w-full' : 'w-0' }`}>
+      <div
+        className={`absolute top-0 right-0 bottom-0 overflow-hidden bg-white ${
+          visible ? "w-full" : "w-0"
+        }`}
+      >
         <div className="flex flex-col text-gray-600">
-          <div onClick={()=>setVisible(false)} className="flex items-center cursor-pointer gap-4 p-3">
+          <div
+            onClick={() => setVisible(false)}
+            className="flex items-center cursor-pointer gap-4 p-3"
+          >
             <img src={assets.back_icon} className="h-4 rotate-180" alt="" />
             <p>Back</p>
           </div>
-          <NavLink onClick={()=>setVisible(false)} className="py-2 pl-6 border" to="/">Home</NavLink>
-          <NavLink onClick={()=>setVisible(false)} className="py-2 pl-6 border" to="/collection">Collection</NavLink>
-          <NavLink onClick={()=>setVisible(false)} className="py-2 pl-6 border" to="/about">About</NavLink>
-          <NavLink onClick={()=>setVisible(false)} className="py-2 pl-6 border" to="/contact">Contact</NavLink>
+          <NavLink
+            onClick={() => setVisible(false)}
+            className="py-2 pl-6 border"
+            to="/"
+          >
+            Home
+          </NavLink>
+          <NavLink
+            onClick={() => setVisible(false)}
+            className="py-2 pl-6 border"
+            to="/collection"
+          >
+            Collection
+          </NavLink>
+          <NavLink
+            onClick={() => setVisible(false)}
+            className="py-2 pl-6 border"
+            to="/about"
+          >
+            About
+          </NavLink>
+          <NavLink
+            onClick={() => setVisible(false)}
+            className="py-2 pl-6 border"
+            to="/contact"
+          >
+            Contact
+          </NavLink>
         </div>
       </div>
     </div>
