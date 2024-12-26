@@ -5,7 +5,7 @@ import "animate.css";
 const NewsLetter = () => {
   const onSubmitHandler = (event) => {
     event.preventDefault();
-  }
+  };
 
   const { ref, inView } = useInView({
     threshold: 0.5, // Trigger when 50% visible
@@ -31,9 +31,9 @@ const NewsLetter = () => {
           placeholder="Enter your email"
           required
         />
-        <button 
-        onClick={onSubmitHandler}  
-        className="bg-black text-white text-xs px-10 py-4"
+        <button
+          onClick={onSubmitHandler}
+          className="bg-black text-white text-xs px-10 py-4"
         >
           SUBSCRIBE
         </button>
