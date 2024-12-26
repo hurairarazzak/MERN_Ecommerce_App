@@ -1,5 +1,7 @@
 import logo from './logo.png'
 import search_icon from './search_icon.png'
+import star_icon from './star_icon.png'
+import star_dull_icon from './star_dull_icon.png'
 import cross_icon from './cross_icon.png'
 import profile_icon from './profile_icon.png'
 import cart_icon from './cart_icon.png'
@@ -19,6 +21,8 @@ import p_img7 from './p_img7.png'
 export const assets = {
     logo,
     search_icon,
+    star_icon,
+    star_dull_icon,
     cross_icon,
     profile_icon,
     cart_icon,
@@ -51,7 +55,7 @@ export const products = [
     },
     {
         id: "2",
-        name: "Men's Casual Shirt",
+        name: "Men's Casual T-Shirt",
         description: "A lightweight casual shirt made from breathable fabric for comfort.",
         price: 699,
         image: ["https://via.placeholder.com/300"], // Replace with real URL
