@@ -13,6 +13,9 @@ import back_icon from './back_icon.png'
 import exchange_policy from './exchange_policy.png'
 import customer_support from './customer_support.png'
 import return_policy from './return_policy.png'
+import about_us_img from './about_us_img.png'
+import seamless_icon from './seamless_icon.png'
+import high_quality_icon from './high_quality_icon.png'
 import p_img1 from './p_img1.png'
 import p_img2 from './p_img2.png'
 import p_img3 from './p_img3.png'
@@ -37,6 +40,9 @@ export const assets = {
     exchange_policy,
     return_policy,
     customer_support,
+    about_us_img,
+    seamless_icon,
+    high_quality_icon,
     p_img1,
     p_img2,
     p_img3,
