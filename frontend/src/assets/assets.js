@@ -14,6 +14,7 @@ import exchange_policy from './exchange_policy.png'
 import customer_support from './customer_support.png'
 import return_policy from './return_policy.png'
 import about_us_img from './about_us_img.png'
+import contact_us_img from './contact_us_image.png'
 import seamless_icon from './seamless_icon.png'
 import high_quality_icon from './high_quality_icon.png'
 import p_img1 from './p_img1.png'
@@ -41,6 +42,7 @@ export const assets = {
     return_policy,
     customer_support,
     about_us_img,
+    contact_us_img,
     seamless_icon,
     high_quality_icon,
     p_img1,

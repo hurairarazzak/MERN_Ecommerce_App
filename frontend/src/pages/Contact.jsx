@@ -1,9 +1,53 @@
-import React from 'react'
+import React from "react";
+import Title from "../components/Title";
+import { assets } from "../assets/assets";
+import NewsLetter from "../components/NewsLetter";
 
 const Contact = () => {
   return (
-    <div>Contact</div>
-  )
-}
+    <div className="bg-white min-h-screen py-10 px-4 sm:px-12 lg:px-20">
+      {/* Heading */}
+      <div className="text-2xl text-center mb-12">
+        <Title text1={"CONTACT"} text2={"US"} />
+      </div>
 
-export default Contact
+      {/* Main Section */}
+      <div className="flex flex-col lg:flex-row gap-8 items-start">
+        {/* Left Image */}
+        <div className="lg:w-1/2 flex justify-center">
+          <img
+            src={assets.contact_us_img}
+            alt="Contact Us"
+            className="w-full h-auto lg:max-w-lg"
+          />
+        </div>
+
+        {/* Right Text */}
+        <div className="lg:w-1/2 text-gray-700">
+        <h2 className="text-lg font-semibold mb-4">Our Store</h2>
+          <p className="text-base text-justify leading-relaxed mb-6">
+            Since our inception, we've worked tirelessly to curate a diverse
+            selection of high-quality products that cater to every taste and
+            preference. From fashion and beauty to electronics and home
+            essentials, we offer an extensive collection sourced from trusted
+            brands and suppliers.
+          </p>
+          <h2 className="text-lg font-semibold mb-4">Our Mission</h2>
+          <p className="text-base text-justify leading-relaxed">
+            Our mission at HuddleClothing is to empower customers with choice,
+            convenience, and confidence. We're dedicated to providing a seamless
+            shopping experience that exceeds expectations, from browsing and
+            ordering to delivery and beyond.
+          </p>
+        </div>
+      </div>
+
+      {/* Newsletter Section */}
+      <div className="mt-24">
+        <NewsLetter />
+      </div>
+    </div>
+  );
+};
+
+export default Contact;
