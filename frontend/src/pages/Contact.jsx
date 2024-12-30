@@ -23,22 +23,23 @@ const Contact = () => {
         </div>
 
         {/* Right Text */}
-        <div className="lg:w-1/2 text-gray-700">
+        <div className="lg:w-1/2 text-gray-700 py-14">
         <h2 className="text-lg font-semibold mb-4">Our Store</h2>
           <p className="text-base text-justify leading-relaxed mb-6">
-            Since our inception, we've worked tirelessly to curate a diverse
-            selection of high-quality products that cater to every taste and
-            preference. From fashion and beauty to electronics and home
-            essentials, we offer an extensive collection sourced from trusted
-            brands and suppliers.
+          54709 Willms Station <br /> 
+          Suite 350, Washington, USA
           </p>
-          <h2 className="text-lg font-semibold mb-4">Our Mission</h2>
+          <p className="text-base text-justify leading-relaxed mb-6">
+          Tel:  +92 330 5012870 <br /> 
+          Email: hurairarazzak125@gmail.com
+          </p>
+          
+        <h2 className="text-lg font-semibold mb-4">Careers at Forever</h2>
           <p className="text-base text-justify leading-relaxed">
-            Our mission at HuddleClothing is to empower customers with choice,
-            convenience, and confidence. We're dedicated to providing a seamless
-            shopping experience that exceeds expectations, from browsing and
-            ordering to delivery and beyond.
-          </p>
+          Learn more about our teams and job openings.</p>
+          <button className="mt-7 border border-black px-8 py-4 text-sm hover:bg-black hover:text-white transition-all duration-500">
+                Explore Jobs
+              </button>
         </div>
       </div>
 
