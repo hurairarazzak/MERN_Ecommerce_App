@@ -6,14 +6,14 @@ import NewsLetter from "../components/NewsLetter";
 const Contact = () => {
   return (
     <div className="bg-white min-h-screen py-10 px-4 sm:px-12 lg:px-20">
-      {/* Heading */}
+      {/* --------------- Heading ------------- */}
       <div className="text-2xl text-center mb-12">
         <Title text1={"CONTACT"} text2={"US"} />
       </div>
 
       {/* Main Section */}
       <div className="flex flex-col lg:flex-row gap-8 items-start">
-        {/* Left Image */}
+        {/* --------------- Left Image ---------------- */}
         <div className="lg:w-1/2 flex justify-center">
           <img
             src={assets.contact_us_img}
@@ -22,7 +22,7 @@ const Contact = () => {
           />
         </div>
 
-        {/* Right Text */}
+        {/* -------------- Right Text ---------------- */}
         <div className="lg:w-1/2 text-gray-700 py-14">
         <h2 className="text-lg font-semibold mb-4">Our Store</h2>
           <p className="text-base text-justify leading-relaxed mb-6">
@@ -43,7 +43,7 @@ const Contact = () => {
         </div>
       </div>
 
-      {/* Newsletter Section */}
+      {/* -------------- Newsletter Section ------------ */}
       <div className="mt-24">
         <NewsLetter />
       </div>
