@@ -41,7 +41,7 @@ const addProduct = async (req, res) => {
 
         const product = productModel(productData)
         await product.save()
-        res.json({success: true, message: "Product Added Successfully"})
+        res.json({ success: true, message: "Product Added Successfully" })
 
     } catch (error) {
         console.error(error);
@@ -51,6 +51,15 @@ const addProduct = async (req, res) => {
 
 // Function for list product
 const listProducts = async (req, res) => {
+    try {
+
+        const products = productModel.find({})
+        res.json({ success: true, products })
+
+    } catch (error) {
+        console.log(error);
+        res.json({ success: false, message: error.message })
+    }
 
 }
 
