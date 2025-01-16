@@ -16,7 +16,7 @@ const App = () => {
   const [token, setToken] = useState(localStorage.getItem('token')?localStorage.getItem('token') : '');
 
   useEffect(()=>{
-    localStorage.getItem('token', token)
+    localStorage.setItem('token', token)
   }, [token])
 
   return (
