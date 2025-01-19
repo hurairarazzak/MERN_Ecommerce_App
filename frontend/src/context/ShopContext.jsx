@@ -1,7 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import backendUrl from '../App'
 import axios from 'axios'
 
 export const ShopContext = createContext();
@@ -80,9 +79,16 @@ const ShopContextProvider = (props) => {
       
       const response = await axios.get(backendUrl + '/api/product/list')
       console.log(response.data);
-       
+
+      if (response.data.success) {
+        setProducts(response.data.products)
+      } else {
+        toast.error(response.data.message)
+      }
+
     } catch (error) {
-      
+      console.log(error);
+      toast.error(error.message)
     }
   }
 

@@ -9,7 +9,7 @@ const [latestProducts, setlatestProducts] = useState([]);
 
   useEffect(() => {
     setlatestProducts(products.slice(0, 10));
-  }, []);
+  }, [products]);
 
   console.log(products);
   
