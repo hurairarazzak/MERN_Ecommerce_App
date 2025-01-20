@@ -8,14 +8,14 @@ const Product = () => {
   const { productId } = useParams();
   const { products, currency, addToCart } = useContext(ShopContext);
   const [productData, setProductData] = useState(false);
-  const [image, setImage] = useState("");
+  const [images, setImage] = useState("");
   const [size, setSize] = useState("");
 
   const fetchProductData = async () => {
     products.map((item) => {
-      if (item.id === productId) {
+      if (item._id === productId) {
         setProductData(item);
-        setImage(item.image[0]);
+        setImage(item.images[0]);
         return null;
       }
     });
@@ -32,7 +32,7 @@ const Product = () => {
         {/*-------------- Product Images ------------------*/}
         <div className="flex-1 flex flex-col-reverse gap-3 sm:flex-row">
           <div className="flex sm:flex-col overflow-x-auto sm:overflow-y-scroll justify-between sm:justify-normal sm:w-[18.7%] w-full">
-            {productData.image.map((item, index) => (
+            {productData.images.map((item, index) => (
               <img
                 onClick={() => setImage(item)}
                 src={item}
@@ -43,7 +43,7 @@ const Product = () => {
             ))}
           </div>
           <div className="w-full sm:w-[80%]">
-            <img className="w-full h-auto" src={image} alt="" />
+            <img className="w-full h-auto" src={images} alt="" />
           </div>
         </div>
 

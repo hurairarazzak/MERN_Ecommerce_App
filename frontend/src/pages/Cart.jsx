@@ -16,7 +16,7 @@ const Cart = () => {
       for (const item in cartItems[items]) {
         if (cartItems[items][item] > 0) {
           tempData.push({
-            id: items,
+            _id: items,
             size: item,
             quantity: cartItems[items][item],
           });
@@ -44,7 +44,7 @@ const Cart = () => {
               <div className="flex items-center gap-6">
                 <img
                   className="w-16 sm:w-20"
-                  src={productData.image[0]}
+                  src={productData.images[0]}
                   alt=""
                 />
                 <div>
@@ -66,7 +66,7 @@ const Cart = () => {
                 onChange={(e) =>
                   e.target.value === "" || e.target.value === "0"
                     ? null
-                    : updateQuantity(item.id, item.size, Number(e.target.value))
+                    : updateQuantity(item._id, item.size, Number(e.target.value))
                 }
                 className="border max-w-10 sm:max-w-20 px-1 sm:px-2 py-1"
                 type="number"
