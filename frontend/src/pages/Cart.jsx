@@ -34,7 +34,7 @@ const Cart = () => {
       <div>
         {cartData.map((item, index) => {
           const productData = products.find(
-            (product) => product.id === item.id
+            (product) => product._id === item._id
           );
           return (
             <div
@@ -74,7 +74,7 @@ const Cart = () => {
                 defaultValue={item.quantity}
               />
               <img
-                onClick={() => updateQuantity(item.id, item.size, 0)}
+                onClick={() => updateQuantity(item._id, item.size, 0)}
                 className="w-4 mr-4 sm:w-5 cursor-pointer"
                 src={assets.bin_icon}
                 alt=""
@@ -82,7 +82,7 @@ const Cart = () => {
             </div>
           );
         })}
-
+  
         <div className="flex justify-end my-20">
           <div className="w-full sm:w-[450px]">
             <CartTotal />

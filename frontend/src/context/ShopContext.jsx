@@ -15,26 +15,23 @@ const ShopContextProvider = (props) => {
   const navigate = useNavigate();
   const [products, setProducts] = useState([])
 
-  const addToCart = async (itemId, size) => {
+  const addToCart = (itemId, size) => {
     let cartData = structuredClone(cartItems);
 
     if (!size) {
       toast.error("Select Product Size");
       return;
     }
-
+  
     if (cartData[itemId]) {
-      if (cartData[itemId][size]) {
-        cartData[itemId][size] += 1;
-      } else {
-        cartData[itemId][size] = 1;
-      }
+      cartData[itemId][size] = (cartData[itemId][size] || 0) + 1;
     } else {
-      cartData[itemId] = {};
-      cartData[itemId][size] = 1;
+      cartData[itemId] = { [size]: 1 };
     }
+  
     setCartItems(cartData);
-  };
+  };  
+
 
   const getCartCount = () => {
     let totalCount = 0;
@@ -56,36 +53,37 @@ const ShopContextProvider = (props) => {
     setCartItems(cartData);
   }
 
-  const getCartAmount = async () => { 
+  const getCartAmount = async () => {
     let totalAmount = 0;
+  
     for (const items in cartItems) {
-      let itemInfo = products.find((product) => product.id === items);
-      for (const item in cartItems[items]) {
-        try {
-          if (cartItems[items][item] > 0) {
-            totalAmount += itemInfo.price * cartItems[items][item];
-          }
-        } 
-        catch (error) {
-          console.log(error);
-        }
-    }
-  }
-    return totalAmount;
-  }
+      const itemInfo = products.find((product) => product._id === items);
 
+      for (const size in cartItems[items]) {
+        try {
+          if (cartItems[items][size] > 0) {
+            totalAmount += itemInfo.price * cartItems[items][size];
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    }
+  
+    return totalAmount;
+  };
+  
+  
   const getProductsData = async () => {
     try {
-      
       const response = await axios.get(backendUrl + '/api/product/list')
-      console.log(response.data);
 
       if (response.data.success) {
         setProducts(response.data.products)
       } else {
         toast.error(response.data.message)
       }
-
+      
     } catch (error) {
       console.log(error);
       toast.error(error.message)

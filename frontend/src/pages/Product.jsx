@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 import { ShopContext } from "../context/ShopContext";
 import { assets } from "../assets/assets";
@@ -83,7 +84,9 @@ const Product = () => {
             </div>
           </div>
           <button
-            onClick={() => addToCart(productData.id, size)}
+            onClick={() => {
+              addToCart(productData._id, size);
+            }}
             className="bg-black text-white px-8 py-3 text-sm active:bg-gray-700"
           >
             ADD TO CART
