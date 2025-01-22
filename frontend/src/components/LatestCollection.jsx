@@ -31,7 +31,7 @@ const [latestProducts, setlatestProducts] = useState([]);
         latestProducts.map((item, index) => (
           <ProductItem
             key={index}
-            id={item.id}
+            id={item._id}
             image={item.images}
             name={item.name}
             price={item.price}

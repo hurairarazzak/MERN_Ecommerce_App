@@ -30,15 +30,15 @@ const Add = ({ token }) => {
     e.preventDefault();
 
     const isFormValid =
-    (!image1 && !image2 && !image3 && !image4)
-      ? alert("Please upload at least one image.")
-      : sizes.length === 0
-      ? alert("Please select at least one size.")
-      : !price
-      ? alert("Please provide a price.")
-      : true; // All validations passed
+      !image1 && !image2 && !image3 && !image4
+        ? alert("Please upload at least one image.")
+        : sizes.length === 0
+        ? alert("Please select at least one size.")
+        : !price
+        ? alert("Please provide a price.")
+        : true; // All validations passed
 
-    if (isFormValid !== true) return 
+    if (isFormValid !== true) return;
 
     try {
       const formData = new FormData();
@@ -47,8 +47,11 @@ const Add = ({ token }) => {
       formData.append("price", price);
       formData.append("category", category);
       formData.append("subCategory", subCategory);
-      formData.append("bestseller", bestseller);
+      formData.append("bestseller", bestseller ? "true" : "false");
       formData.append("sizes", JSON.stringify(sizes));
+
+      console.log("Bestseller state before appending to formData:", bestseller);
+
 
       image1 && formData.append("image1", image1);
       image2 && formData.append("image2", image2);
@@ -193,14 +196,14 @@ const Add = ({ token }) => {
       </div>
 
       {/* Bestseller Checkbox */}
-      <div className="flex gap-2 mt-2">
+      <div className="flex items-center gap-2">
         <input
           type="checkbox"
           id="bestseller"
           checked={bestseller}
-          onChange={() => setBestseller((prev) => !prev)}
+          onChange={(e) => setBestseller(e.target.checked)}
         />
-        <label htmlFor="bestseller">Add to bestseller</label>
+        <label htmlFor="bestseller">Best Seller</label>
       </div>
 
       <button type="submit" className="w-28 py-3 mt-4 bg-black text-white">

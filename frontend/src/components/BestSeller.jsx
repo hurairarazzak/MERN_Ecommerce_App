@@ -23,9 +23,9 @@ const BestSeller = () => {
         bestSeller.map((item, index) => (
           <ProductItem
             key={index}
-            _id={item._id}
+            id={item._id}
             name={item.name}
-            images={item.images}
+            image={item.images}
             price={item.price}
           />
         ))
