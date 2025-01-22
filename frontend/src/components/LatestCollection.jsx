@@ -32,7 +32,7 @@ const [latestProducts, setlatestProducts] = useState([]);
           <ProductItem
             key={index}
             id={item.id}
-            image={item.image}
+            image={item.images}
             name={item.name}
             price={item.price}
           />

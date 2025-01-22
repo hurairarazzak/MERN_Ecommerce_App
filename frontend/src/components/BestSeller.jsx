@@ -4,11 +4,12 @@ import Title from './Title'
 import ProductItem from './ProductItem'
 
 const BestSeller = () => {
-    const {products} = useContext(ShopContext)
+    const { products } = useContext(ShopContext)
     const [bestSeller, setBestSeller] = useState([])
 
     useEffect(()=>{
         const bestProduct = products.filter((item)=>(item.bestseller));
+        console.log(bestProduct);
         setBestSeller(bestProduct.slice(0, 5))
     }, [products])
   return (
@@ -22,9 +23,9 @@ const BestSeller = () => {
         bestSeller.map((item, index) => (
           <ProductItem
             key={index}
-            id={item.id}
-            image={item.image}
+            _id={item._id}
             name={item.name}
+            images={item.images}
             price={item.price}
           />
         ))
