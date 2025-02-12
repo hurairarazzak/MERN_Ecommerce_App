@@ -1,8 +1,12 @@
 import React from 'react'
 
 const orderController = () => {
+
   return (
-    <div>orderController</div>
+    <div>
+      <h1>orderController</h1>
+
+    </div>
   )
 }
 
