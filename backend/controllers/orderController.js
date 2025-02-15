@@ -25,7 +25,7 @@ const userOrders = async (req, res) => {
   
 }
 
-// Update Order Status from Admin Panel 
+// Update Order Status from Admin Panel
 const updateStatus = async (req, res) => {
   
 }
