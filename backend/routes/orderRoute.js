@@ -16,3 +16,5 @@ orderRouter.post('/easypaisa', authUser, placeOrderEasypaisa)
 
 // User Feature
 orderRouter.post('/userorders', authUser, userOrders)
+
+export default orderRouter
