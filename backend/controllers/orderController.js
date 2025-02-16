@@ -2,7 +2,7 @@
 
 // Placing orders using COD
 const placeOrder = async (req, res) => {
-  
+   
 }
 
 // Placing orders using Stripe Method
