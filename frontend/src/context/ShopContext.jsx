@@ -78,24 +78,26 @@ const ShopContextProvider = (props) => {
     }
   };
 
-  const getCartAmount = async () => {
+  const getCartAmount = () => {
     let totalAmount = 0;
-
+  
     for (const items in cartItems) {
       const itemInfo = products.find((product) => product._id === items);
-
-      for (const size in cartItems[items]) {
-        try {
-          if (cartItems[items][size] > 0) {
-            totalAmount += itemInfo.price * cartItems[items][size];
+  
+      if (itemInfo) {
+        for (const size in cartItems[items]) {
+          try {
+            if (cartItems[items][size] > 0) {
+              totalAmount += itemInfo.price * cartItems[items][size];
+            }
+          } catch (error) {
+            console.error(error);
           }
-        } catch (error) {
-          console.error(error);
         }
       }
     }
-
-    return totalAmount;
+  
+    return totalAmount; // Ensure this returns a number
   };
 
   const getProductsData = async () => {

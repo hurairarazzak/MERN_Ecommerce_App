@@ -1,61 +1,89 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react"; // Add useContext here
+import { toast } from 'react-toastify'
+import axios from "axios";
 import CartTotal from "../components/CartTotal";
 import Title from "../components/Title";
 import { assets } from "../assets/assets";
 import { ShopContext } from "../context/ShopContext";
 
 const PlaceOrder = () => {
-
-  const [method, setMethod] = useState('cod');
-  const {navigate, backendUrl, token, cartItems, setCartItems, getCartAmount, delivery_fee, products} = useState(ShopContext); 
+  const [method, setMethod] = useState("cod");
+  const { navigate, backendUrl, token, cartItems, setCartItems, getCartAmount, delivery_fee, products } = useContext(ShopContext); // Fix here
   const [formData, setFormData] = useState({
-    firstName:'',
-    lastName:'',
-    email:'',
-    street:'',
-    city:'',
-    state:'',
-    zipcode:'',
-    country:'',
-    phone:'',
-  })
+    firstName: "",
+    lastName: "",
+    email: "",
+    street: "",
+    city: "",
+    state: "",
+    zipcode: "",
+    country: "",
+    phone: "",
+  });
 
   const onChangeHandler = (event) => {
-    const name = event.target.name
-    const value = event.target.value
-    setFormData(data => ({...data, [name]:value}))
-  }
+    const { name, value } = event.target;
+    setFormData((data) => ({ ...data, [name]: value }));
+  };
 
   const onSubmitHandler = async (event) => {
-    event.preventDefault()
+    event.preventDefault();
     try {
-      
-      let orderItems = []
-
-      for(const items in cartItems){
-        for(const item in cartItems[items]){
-          if (cartItems[items][item] > 0 ) {
-            const itemInfo = structuredClone(products.find(product => product._id === items))
+      let orderItems = [];
+  
+      // Iterate over cartItems
+      for (const [productId, sizes] of Object.entries(cartItems)) {
+        for (const [size, quantity] of Object.entries(sizes)) {
+          if (quantity > 0) {
+            // Find the product in the products array
+            const itemInfo = products.find((product) => product._id === productId);
             if (itemInfo) {
-              itemInfo.size = item
-              itemInfo.quantity = cartItems[items][item]
-              orderItems.push(itemInfo)
+              // Clone the itemInfo and add size/quantity
+              const orderItem = {
+                ...itemInfo,
+                size,
+                quantity,
+              };
+              orderItems.push(orderItem);
             }
           }
         }
       }
-
-      console.log(orderItems);
-      
-
+  
+      console.log("orderItems:", orderItems);
+  
+      // Calculate the total amount
+      const totalAmount = getCartAmount(); // Call getCartAmount here
+  
+      // Send order data to the backend
+      const orderData = {
+        userId: token, // Assuming token is the user ID
+        items: orderItems,
+        amount: totalAmount, // Use the calculated amount
+        address: formData,
+        paymentMethod: method,
+      };
+  
+      const response = await axios.post(backendUrl + "/api/order/place", orderData, {
+        headers: { token },
+      });
+  
+      if (response.data.success) {
+        toast.success("Order placed successfully!");
+        setCartItems({}); // Clear the cart
+        navigate("/orders"); // Redirect to orders page
+      } else {
+        toast.error(response.data.message);
+      }
     } catch (error) {
-      
+      console.error("Error in onSubmitHandler:", error);
+      toast.error("Failed to place order");
     }
-  }
+  };
 
   return (
     <form className="flex flex-col sm:flex-row justify-between gap-4 pt-5 sm:pt-14 min-h-[80vh] border-t">
-      {/* -------------------- Left Side ----------------------- */}
+      {/* --------------- Left Side ------------- */}
       <div className="flex flex-col gap-4 w-full sm:max-w-[480px]">
         <div className="text-xl sm:text-2xl my-3">
           <Title text1={"DELIVERY"} text2={"INFORMATION"} />
@@ -131,13 +159,11 @@ const PlaceOrder = () => {
         />
       </div>
 
-      {/* ------------------- Right Side ------------------------ */}
-
+      {/* Right Side*/}
       <div className="mt-8">
         <div className="mt-8 min-w-80">
           <CartTotal />
         </div>
-
         <div className="mt-12">
           <Title text1={"PAYMENT"} text2={"METHOD"} />
           <div className="flex gap-3 flex-col lg:flex-row">
@@ -157,9 +183,11 @@ const PlaceOrder = () => {
               </div>
             </div>
           </div>
-            <div className="w-full text-end mt-8">
-              <button type="submit" onClick={onSubmitHandler} className="bg-black text-white px-16 py-3 text-sm">PLACE ORDER</button>
-            </div>
+          <div className="w-full text-end mt-8">
+            <button type="submit" onClick={onSubmitHandler} className="bg-black text-white px-16 py-3 text-sm">
+              PLACE ORDER
+            </button>
+          </div>
         </div>
       </div>
     </form>
