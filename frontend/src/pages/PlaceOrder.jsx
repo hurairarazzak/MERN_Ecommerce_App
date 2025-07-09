@@ -28,56 +28,63 @@ const PlaceOrder = () => {
 
   const onSubmitHandler = async (event) => {
     event.preventDefault();
+
+    if (!token) {
+      toast.error("Please login to place an order.");
+      navigate("/login");
+      return;
+    }
+
     try {
       let orderItems = [];
-  
-      // Iterate over cartItems
+
       for (const [productId, sizes] of Object.entries(cartItems)) {
         for (const [size, quantity] of Object.entries(sizes)) {
           if (quantity > 0) {
-            // Find the product in the products array
             const itemInfo = products.find((product) => product._id === productId);
             if (itemInfo) {
-              // Clone the itemInfo and add size/quantity
-              const orderItem = {
+              orderItems.push({
                 ...itemInfo,
                 size,
                 quantity,
-              };
-              orderItems.push(orderItem);
+              });
             }
           }
         }
       }
-  
-      console.log("orderItems:", orderItems);
-  
-      // Calculate the total amount
-      const totalAmount = getCartAmount(); // Call getCartAmount here
-  
-      // Send order data to the backend
+
+      const totalAmount = getCartAmount();
+
       const orderData = {
-        userId: token, // Assuming token is the user ID
         items: orderItems,
-        amount: totalAmount, // Use the calculated amount
+        amount: totalAmount,
         address: formData,
         paymentMethod: method,
       };
-  
-      const response = await axios.post(backendUrl + "/api/order/place", orderData, {
-        headers: { token },
-      });
-  
+
+      const response = await axios.post(
+        backendUrl + "/api/order/place",
+        orderData,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
       if (response.data.success) {
         toast.success("Order placed successfully!");
-        setCartItems({}); // Clear the cart
-        navigate("/orders"); // Redirect to orders page
+        setCartItems({});
+        navigate("/orders");
       } else {
-        toast.error(response.data.message);
+        toast.error(response.data.message || "Something went wrong");
       }
     } catch (error) {
       console.error("Error in onSubmitHandler:", error);
-      toast.error("Failed to place order");
+      if (error.response?.status === 401) {
+        toast.error("Please login to place an order.");
+        navigate("/login");
+      } else {
+        toast.error("Failed to place order");
+      }
     }
   };
 
@@ -169,15 +176,15 @@ const PlaceOrder = () => {
           <div className="flex gap-3 flex-col lg:flex-row">
             {/* ------------- Payment Method Selection ------------ */}
             <div className="flex gap-3 flex-col lg:flex-row">
-              <div onClick={()=>setMethod('STRIPE')} className="flex items-center gap-3 border p-2 px-3 cursor-pointer">
+              <div onClick={() => setMethod('STRIPE')} className="flex items-center gap-3 border p-2 px-3 cursor-pointer">
                 <p className={`min-w-3.5 h-3.5 border rounded-full ${method === 'STRIPE' ? 'bg-green-400' : ''}`}></p>
                 <img className="h-5 mx-4" src={assets.stripe_icon} alt="" />
               </div>
-              <div onClick={()=>setMethod('PAYPAL')} className="flex items-center gap-3 border p-2 px-3 cursor-pointer">
+              <div onClick={() => setMethod('PAYPAL')} className="flex items-center gap-3 border p-2 px-3 cursor-pointer">
                 <p className={`min-w-3.5 h-3.5 border rounded-full ${method === 'PAYPAL' ? 'bg-green-400' : ''}`}></p>
                 <img className="h-5 mx-4" src={assets.paypal_icon} alt="" />
               </div>
-              <div onClick={()=>setMethod('COD')} className="flex items-center gap-3 border p-2 px-3 cursor-pointer">
+              <div onClick={() => setMethod('COD')} className="flex items-center gap-3 border p-2 px-3 cursor-pointer">
                 <p className={`min-w-3.5 h-3.5 border rounded-full ${method === 'COD' ? 'bg-green-400' : ''}`}></p>
                 <p className="text-gray-500 text-sm font-medium mx-4">CASH ON DELIVERY</p>
               </div>

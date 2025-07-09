@@ -10,8 +10,9 @@ const Collection = () => {
   const [filterProducts, setFilterProducts] = useState([]);
   const [category, setCategory] = useState([]);
   const [subCategory, setSubCategory] = useState([]);
-  const [sortType, setSortType] = useState("relevant");
+  const [sortType, setSortType] = useState("latest");
 
+  // Toggle category
   const toggleCategory = (e) => {
     if (category.includes(e.target.value)) {
       setCategory((prev) => prev.filter((item) => item !== e.target.value));
@@ -20,6 +21,7 @@ const Collection = () => {
     }
   };
 
+  // Toggle subCategory
   const toggleSubCategory = (e) => {
     if (subCategory.includes(e.target.value)) {
       setSubCategory((prev) => prev.filter((item) => item !== e.target.value));
@@ -28,58 +30,55 @@ const Collection = () => {
     }
   };
 
+  // Filter and Sort Products
   const applyFilter = () => {
-    let productsCopy = products.slice();
+    let filtered = [...products];
 
     if (showSearch && search) {
-      productsCopy = productsCopy.filter((item) =>
+      filtered = filtered.filter((item) =>
         item.name.toLowerCase().includes(search.toLowerCase())
       );
     }
 
     if (category.length > 0) {
-      productsCopy = productsCopy.filter((item) =>
+      filtered = filtered.filter((item) =>
         category.includes(item.category)
       );
     }
 
     if (subCategory.length > 0) {
-      productsCopy = productsCopy.filter((item) =>
+      filtered = filtered.filter((item) =>
         subCategory.includes(item.subCategory)
       );
     }
-    setFilterProducts(productsCopy);
-  };
 
-  const sortProducts = () => {
-    let fpCopy = filterProducts.slice();
-
+    // Sort logic
     switch (sortType) {
       case "low-high":
-        setFilterProducts(fpCopy.sort((a, b) => a.price - b.price));
+        filtered.sort((a, b) => a.price - b.price);
         break;
-
       case "high-low":
-        setFilterProducts(fpCopy.sort((a, b) => b.price - a.price));
+        filtered.sort((a, b) => b.price - a.price);
         break;
-
+      case "latest":
       default:
-        applyFilter();
+        filtered.sort((a, b) => b.date - a.date); // Show latest first
         break;
     }
+
+    setFilterProducts(filtered);
   };
 
+  // Apply filter whenever something changes
   useEffect(() => {
-    applyFilter(products);
-  }, [category, subCategory, search, showSearch, products]);
-
-  useEffect(() => {
-    sortProducts();
-  }, [sortType]);
+    if (products.length > 0) {
+      applyFilter();
+    }
+  }, [products, search, showSearch, category, subCategory, sortType]);
 
   return (
     <div className="flex flex-col sm:flex-row gap-1 sm:gap-10 pt-10 border-t">
-      {/* { Category Filter } */}
+      {/* FILTERS */}
       <div className="min-w-60">
         <p
           onClick={() => setShowFilter(!showFilter)}
@@ -92,107 +91,66 @@ const Collection = () => {
             alt=""
           />
         </p>
-        <div
-          className={`border border-gray-300 pl-5 py-3 mt-6 ${
-            showFilter ? "" : "hidden"
-          } sm:block`}
-        >
+
+        {/* Categories */}
+        <div className={`border border-gray-300 pl-5 py-3 mt-6 ${showFilter ? "" : "hidden"} sm:block`}>
           <p className="mb-3 text-sm font-medium">CATEGORIES</p>
           <div className="flex flex-col gap-2 text-sm font-light text-gray-700">
-            <p className="flex gap-2">
-              <input
-                className="w-3"
-                type="checkbox"
-                onChange={toggleCategory}
-                value={"Men"}
-              />{" "}
-              Men
-            </p>
-            <p className="flex gap-2">
-              <input
-                className="w-3"
-                type="checkbox"
-                onChange={toggleCategory}
-                value={"Women"}
-              />{" "}
-              Women
-            </p>
-            <p className="flex gap-2">
-              <input
-                className="w-3"
-                type="checkbox"
-                onChange={toggleCategory}
-                value={"Kids"}
-              />{" "}
-              Kids
-            </p>
+            {["Men", "Women", "Kids"].map((cat) => (
+              <label key={cat} className="flex gap-2 cursor-pointer">
+                <input type="checkbox" className="w-3" onChange={toggleCategory} value={cat} />
+                {cat}
+              </label>
+            ))}
           </div>
         </div>
 
-        {/* SubCategory Filter  */}
-        <div
-          className={`border border-gray-300 pl-5 py-3 mt-6 ${
-            showFilter ? "" : "hidden"
-          } sm:block`}
-        >
+        {/* Subcategories */}
+        <div className={`border border-gray-300 pl-5 py-3 mt-6 ${showFilter ? "" : "hidden"} sm:block`}>
           <p className="mb-3 text-sm font-medium">TYPE</p>
           <div className="flex flex-col gap-2 text-sm font-light text-gray-700">
-            <p className="flex gap-2">
-              <input
-                className="w-3"
-                type="checkbox"
-                onChange={toggleSubCategory}
-                value={"Topwear"}
-              />
-              Topwear
-            </p>
-            <p className="flex gap-2">
-              <input
-                className="w-3"
-                type="checkbox"
-                onChange={toggleSubCategory}
-                value={"Bottomwear"}
-              />
-              Bottomwear
-            </p>
-            <p className="flex gap-2">
-              <input
-                className="w-3"
-                type="checkbox"
-                onChange={toggleSubCategory}
-                value={"Winterwear"}
-              />
-              Winterwear
-            </p>
+            {["Topwear", "Bottomwear", "Winterwear"].map((sub) => (
+              <label key={sub} className="flex gap-2 cursor-pointer">
+                <input type="checkbox" className="w-3" onChange={toggleSubCategory} value={sub} />
+                {sub}
+              </label>
+            ))}
           </div>
         </div>
       </div>
 
+      {/* PRODUCT LIST */}
       <div className="flex-1">
         <div className="flex justify-between text-base sm:text-2xl mb-4">
           <Title text1={"ALL"} text2={"COLLECTIONS"} />
-          {/* Product Sort  */}
           <select
             onChange={(e) => setSortType(e.target.value)}
             className="border-2 border-gray-300 text-sm px-2"
           >
-            <option value="relavent">Sort by: Relavent</option>
+            <option value="latest">Sort by: Latest</option>
             <option value="low-high">Sort by: Low to High</option>
             <option value="high-low">Sort by: High to Low</option>
           </select>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 gapy-y-6">
-          {filterProducts.map((item, index) => (
-            <ProductItem
-              key={index}
-              id={item._id}
-              image={item.images}
-              name={item.name}
-              price={item.price}
-            />
-          ))}
-        </div>
+        {/* Results */}
+        {products.length === 0 ? (
+          <p className="text-center text-gray-500">Loading products...</p>
+        ) : filterProducts.length === 0 ? (
+          <p className="text-center text-gray-500">No products found.</p>
+        ) : (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 gap-y-6">
+            {filterProducts.map((item, index) => (
+              <ProductItem
+                key={index}
+                id={item._id}
+                image={item.images}
+                name={item.name}
+                price={item.price}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

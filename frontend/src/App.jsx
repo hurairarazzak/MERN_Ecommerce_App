@@ -15,11 +15,12 @@ import Footer from "./components/footer";
 import SearchBar from "./components/SearchBar";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import ShopContextProvider from "./context/ShopContext";
+import ScrollTop from "./components/scrollTop";
 
 const App = () => {
   return (
     <div className="px-4 sm:px-[5vw] md:[7vw] lg:px-[9vw]">
+    <ScrollTop />
       <ToastContainer />
       <Navbar />
       <SearchBar />

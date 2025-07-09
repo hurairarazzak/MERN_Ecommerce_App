@@ -47,12 +47,9 @@ const Add = ({ token }) => {
       formData.append("price", price);
       formData.append("category", category);
       formData.append("subCategory", subCategory);
-      formData.append("bestseller", bestseller ? "true" : "false");
+      formData.append("bestseller", bestseller ? true : false);
       formData.append("sizes", JSON.stringify(sizes));
-
-      console.log("Bestseller state before appending to formData:", bestseller);
-
-
+      
       image1 && formData.append("image1", image1);
       image2 && formData.append("image2", image2);
       image3 && formData.append("image3", image3);
